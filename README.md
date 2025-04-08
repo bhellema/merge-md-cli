@@ -5,13 +5,28 @@ A command line tool to merge MD files using JavaScript spread syntax.
 ## Installation
 
 ```bash
-npm install -g merge-md-cli
+# Clone the repository
+git clone https://github.com/bhellema/merge-md-cli.git
+cd merge-md-cli
+
+# Install dependencies
+npm install
+
+# Make the CLI executable
+chmod +x src/index.js
 ```
 
 ## Usage
 
 ```bash
-merge-md --in <input-file> --out <output-file>
+# Basic usage
+node src/index.js -i <input-file> -o <output-file>
+
+# Output to stdout
+node src/index.js -i <input-file> -o -
+
+# Using npx (if published to npm)
+npx merge-md-cli -i <input-file> -o <output-file>
 ```
 
 ## Features
@@ -20,35 +35,50 @@ merge-md --in <input-file> --out <output-file>
 - Support for nested object references
 - Array merging with glob patterns
 - JSONPath support for accessing specific parts of files
+- Output to file or stdout
 
 ## Examples
 
 ### Merging Objects
 
-Input file (`input.md`):
+Input file (`input.json`):
 ```json
 {
-    "key1": "value1",
-    "...": "./other.md",
-    "key2": "value2"
+    "title": "My Document",
+    "sections": [
+        { "...": "./sections/intro.md" },
+        { "...": "./sections/*.md" }
+    ],
+    "metadata": {
+        "...": "./metadata.md",
+        "version": "1.0.0"
+    }
 }
 ```
 
-Other file (`other.md`):
-```json
-{
-    "other-key1": "other-value1",
-    "other-key2": "other-value2"
-}
+Other file (`sections/intro.md`):
+```markdown
+# Introduction
+
+This is the introduction section of the document.
 ```
 
 Result:
 ```json
 {
-    "key1": "value1",
-    "other-key1": "other-value1",
-    "other-key2": "other-value2",
-    "key2": "value2"
+    "title": "My Document",
+    "sections": [
+        {
+            "block": "Introduction",
+            "description": "This is the introduction section of the document."
+        }
+    ],
+    "metadata": {
+        "author": "John Doe",
+        "date": "2024-04-08",
+        "tags": ["documentation", "test"],
+        "version": "1.0.0"
+    }
 }
 ```
 
@@ -66,6 +96,14 @@ Result:
 [
     { "...": "../*/component.md" }
 ]
+```
+
+## Testing
+
+Run the test script to verify functionality:
+
+```bash
+./test/test.sh
 ```
 
 ## License
