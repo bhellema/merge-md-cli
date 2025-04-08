@@ -108,4 +108,4 @@ Run the test script to verify functionality:
 
 ## License
 
-MIT
+Apache License 2.0
