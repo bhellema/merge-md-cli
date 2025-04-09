@@ -33,69 +33,41 @@ npx merge-md-cli -i <input-file> -o <output-file>
 
 - Merge MD files using JavaScript spread syntax
 - Support for nested object references
-- Array merging with glob patterns
-- JSONPath support for accessing specific parts of files
 - Output to file or stdout
 
 ## Examples
 
 ### Merging Objects
 
-Input file (`input.json`):
+Input file (`test/input.json`):
 ```json
 {
-    "title": "My Document",
-    "sections": [
-        { "...": "./sections/intro.md" },
-        { "...": "./sections/*.md" }
-    ],
-    "metadata": {
-        "...": "./metadata.md",
-        "version": "1.0.0"
-    }
+    "title": "Block Library Descriptions",
+    "blocks": [
+        { "...": "./blocks/accordion/_accordion.md" },
+        { "...": "./blocks/*.md" }
+    ]
 }
 ```
 
-Other file (`sections/intro.md`):
+Example markdown file (`test/blocks/accordion/_accordion.md`):
 ```markdown
-# Introduction
+# Accordion
 
-This is the introduction section of the document.
+An accordion is a vertically stacked set of interactive headings that reveal or hide associated content.
 ```
 
 Result:
 ```json
 {
-    "title": "My Document",
-    "sections": [
+    "title": "Block Library Descriptions",
+    "blocks": [
         {
-            "block": "Introduction",
-            "description": "This is the introduction section of the document."
+            "block": "Accordion",
+            "description": "An accordion is a vertically stacked set of interactive headings that reveal or hide associated content."
         }
-    ],
-    "metadata": {
-        "author": "John Doe",
-        "date": "2024-04-08",
-        "tags": ["documentation", "test"],
-        "version": "1.0.0"
-    }
+    ]
 }
-```
-
-### Nested Object References
-
-```json
-{
-    "...": "./other.md#/some/key"
-}
-```
-
-### Merging Arrays
-
-```json
-[
-    { "...": "../*/component.md" }
-]
 ```
 
 ## Testing

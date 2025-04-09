@@ -5,7 +5,7 @@ mkdir -p test/output
 
 # Run the merge-md command
 echo "Running merge-md-cli..."
-node src/index.js --in test/input.json --out test/output/library.json
+node src/index.js --in test/_library.json --out test/output/library.json
 
 # Display the result
 echo -e "\nMerged output:"

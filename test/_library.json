@@ -2,16 +2,7 @@
     "title": "Block Library Descriptions",
     "blocks": [
         {
-            "...": "./blocks/accordion/_accordion.md"
-        },
-        {
-            "...": "./blocks/cards/_cards.md"
-        },
-        {
-            "...": "./blocks/carousel/_carousel.md"
-        },
-        {
-            "...": "./blocks/columns/_columns.md"
+            "...": "./blocks/**/*.md"
         }
     ]
 }

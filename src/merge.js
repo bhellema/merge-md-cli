@@ -1,5 +1,5 @@
 import { readFile } from 'fs/promises';
-import { resolve } from 'path';
+import { resolve, dirname } from 'path';
 import { glob } from 'glob';
 import { marked } from 'marked';
 
@@ -67,10 +67,9 @@ async function mergeArray(arr, baseDir) {
 }
 
 async function handleSpread(path, baseDir) {
-  const [filePath, jsonPath] = path.split('#');
-  const absolutePath = resolve(baseDir, filePath);
+  const absolutePath = resolve(baseDir, path);
 
-  if (filePath.includes('*')) {
+  if (path.includes('*')) {
     // Handle glob patterns
     const files = await glob(absolutePath);
     const results = await Promise.all(
@@ -90,12 +89,7 @@ async function handleSpread(path, baseDir) {
     return processMarkdown(content, absolutePath);
   }
 
-  const data = JSON.parse(content);
-  if (jsonPath) {
-    return getValueByPath(data, jsonPath);
-  }
-
-  return data;
+  return JSON.parse(content);
 }
 
 function processMarkdown(content, filePath) {
@@ -121,23 +115,4 @@ function processMarkdown(content, filePath) {
     block: title,
     description: description.trim()
   };
-}
-
-function getValueByPath(obj, path) {
-  // Remove leading slash if present
-  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
-
-  // Split the path into segments
-  const segments = cleanPath.split('/');
-
-  // Traverse the object
-  let current = obj;
-  for (const segment of segments) {
-    if (current === undefined || current === null) {
-      return undefined;
-    }
-    current = current[segment];
-  }
-
-  return current;
 } 
